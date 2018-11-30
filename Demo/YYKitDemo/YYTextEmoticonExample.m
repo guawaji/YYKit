@@ -56,6 +56,14 @@
     
 }
 
+- (void)viewSafeAreaInsetsDidChange
+{
+    [super viewSafeAreaInsetsDidChange];
+    if (@available(iOS 11.0, *)) {
+        self.textView.frame = UIEdgeInsetsInsetRect(self.textView.frame, self.view.safeAreaInsets);
+    }
+}
+
 - (UIImage *)imageWithName:(NSString *)name {
     NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"EmoticonQQ" ofType:@"bundle"]];
     NSString *path = [bundle pathForScaledResource:name ofType:@"gif"];

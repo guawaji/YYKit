@@ -94,6 +94,14 @@
     });
 }
 
+- (void)viewSafeAreaInsetsDidChange
+{
+    [super viewSafeAreaInsetsDidChange];
+    if (@available(iOS 11.0, *)) {
+        self.textView.frame = UIEdgeInsetsInsetRect(self.textView.frame, self.view.safeAreaInsets);
+    }
+}
+
 - (void)edit:(UIBarButtonItem *)item {
     if (_textView.isFirstResponder) {
         [_textView resignFirstResponder];
