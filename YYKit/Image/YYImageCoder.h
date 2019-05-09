@@ -106,7 +106,7 @@ typedef NS_ENUM(NSUInteger, YYImageBlendOperation) {
     // Decode single image:
     NSData *data = [NSData dataWithContentOfFile:@"/tmp/image.webp"];
     YYImageDecoder *decoder = [YYImageDecoder decoderWithData:data scale:2.0];
-    UIImage image = [decoder frameAtIndex:0 decodeForDisplay:YES].image;
+    UIImage *image = [decoder frameAtIndex:0 decodeForDisplay:YES].image;
  
     // Decode image during download:
     NSMutableData *data = [NSMutableData new];
@@ -120,7 +120,7 @@ typedef NS_ENUM(NSUInteger, YYImageBlendOperation) {
         }
     }
     [decoder updateData:data final:YES];
-    UIImage image = [decoder frameAtIndex:0 decodeForDisplay:YES].image;
+    UIImage *image = [decoder frameAtIndex:0 decodeForDisplay:YES].image;
     // final display...
  
  */
@@ -218,14 +218,14 @@ typedef NS_ENUM(NSUInteger, YYImageBlendOperation) {
     YYImageEncoder *jpegEncoder = [[YYImageEncoder alloc] initWithType:YYImageTypeJPEG];
     jpegEncoder.quality = 0.9;
     [jpegEncoder addImage:image duration:0];
-    NSData jpegData = [jpegEncoder encode];
+    NSData *jpegData = [jpegEncoder encode];
  
     YYImageEncoder *gifEncoder = [[YYImageEncoder alloc] initWithType:YYImageTypeGIF];
     gifEncoder.loopCount = 5;
     [gifEncoder addImage:image0 duration:0.1];
     [gifEncoder addImage:image1 duration:0.15];
     [gifEncoder addImage:image2 duration:0.2];
-    NSData gifData = [gifEncoder encode];
+    NSData *gifData = [gifEncoder encode];
  
  @warning It just pack the images together when encoding multi-frame image. If you
  want to reduce the image file size, try imagemagick/ffmpeg for GIF and WebP,
@@ -368,10 +368,10 @@ CG_EXTERN NSString *_Nullable YYImageTypeGetExtension(YYImageType type);
 
 
 /// Returns the shared DeviceRGB color space.
-CG_EXTERN CGColorSpaceRef YYCGColorSpaceGetDeviceRGB();
+CG_EXTERN CGColorSpaceRef YYCGColorSpaceGetDeviceRGB(void);
 
 /// Returns the shared DeviceGray color space.
-CG_EXTERN CGColorSpaceRef YYCGColorSpaceGetDeviceGray();
+CG_EXTERN CGColorSpaceRef YYCGColorSpaceGetDeviceGray(void);
 
 /// Returns whether a color space is DeviceRGB.
 CG_EXTERN BOOL YYCGColorSpaceIsDeviceRGB(CGColorSpaceRef space);
@@ -446,7 +446,7 @@ CG_EXTERN CFDataRef _Nullable YYCGImageCreateEncodedData(CGImageRef imageRef, YY
 /**
  Whether WebP is available in YYImage.
  */
-CG_EXTERN BOOL YYImageWebPAvailable();
+CG_EXTERN BOOL YYImageWebPAvailable(void);
 
 /**
  Get a webp image frame count;

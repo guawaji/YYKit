@@ -54,6 +54,14 @@
     }
 }
 
+- (void)viewSafeAreaInsetsDidChange
+{
+    [super viewSafeAreaInsetsDidChange];
+    if (@available(iOS 11.0, *)) {
+        self.textView.frame = UIEdgeInsetsInsetRect(self.textView.frame, self.view.safeAreaInsets);
+    }
+}
+
 - (void)textViewDidBeginEditing:(YYTextView *)textView {
     UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                 target:self

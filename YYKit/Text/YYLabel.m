@@ -124,7 +124,6 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 + (YYTextLayout *)_shrinkLayoutWithLayout:(YYTextLayout *)layout {
     if (layout.text.length && layout.lines.count == 0) {
         YYTextContainer *container = layout.container.copy;
-        container.maximumNumberOfRows = 1;
         CGSize containerSize = container.size;
         if (!container.verticalForm) {
             containerSize.height = YYTextContainerMaxSize.height;
@@ -1031,7 +1030,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         container.size = YYTextContainerMaxSize;
         
         YYTextLayout *layout = [YYTextLayout layoutWithContainer:container text:_innerText];
-        return layout.textBoundingSize;
+        return layout.textBoundingRect.size;
     }
     
     CGSize containerSize = _innerContainer.size;
@@ -1049,7 +1048,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     container.size = containerSize;
     
     YYTextLayout *layout = [YYTextLayout layoutWithContainer:container text:_innerText];
-    return layout.textBoundingSize;
+    return layout.textBoundingRect.size;
 }
 
 #pragma mark - YYTextDebugTarget

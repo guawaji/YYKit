@@ -66,6 +66,7 @@
 @property (nonatomic, strong) NSArray *strings;
 @property (nonatomic, strong) NSArray *layouts;
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UIView * wrapperView;
 @end
 
 @implementation YYTextAsyncExample
@@ -77,7 +78,10 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView registerClass:[YYTextAsyncExampleCell class] forCellReuseIdentifier:@"id"];
-    [self.view addSubview:self.tableView];
+    self.wrapperView = [UIView new];
+    self.wrapperView.frame = self.view.bounds;
+    [self.view addSubview:self.wrapperView];
+    [self.wrapperView addSubview:self.tableView];
     
     
     
@@ -112,14 +116,17 @@
     
     
     UIView *toolbar;
+    UIVisualEffectView *toolbarEffectView;
     if ([UIVisualEffectView class]) {
-        toolbar = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
+        toolbarEffectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
+        toolbar = [UIView new];
+        [toolbarEffectView.contentView addSubview:toolbar];
     } else {
         toolbar = [UIToolbar new];
     }
     toolbar.size = CGSizeMake(kScreenWidth, 40);
     toolbar.top = kiOS7Later ? 64 : 0;
-    [self.view addSubview:toolbar];
+    [_wrapperView addSubview:toolbar];
     
     
     YYFPSLabel *fps = [YYFPSLabel new];
@@ -161,6 +168,14 @@
             [cell setAyncText:_strings[indexPath.row]];
         }
     }];
+}
+
+- (void)viewSafeAreaInsetsDidChange
+{
+    [super viewSafeAreaInsetsDidChange];
+    if (@available(iOS 11.0, *)) {
+        self.wrapperView.frame = UIEdgeInsetsInsetRect(self.wrapperView.frame, self.view.safeAreaInsets);
+    }
 }
 
 #pragma mark - Table view data source
